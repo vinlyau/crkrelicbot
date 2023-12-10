@@ -62,7 +62,11 @@ def crop_to_region(filepath: str, region_name: str,
 
 
 def crop_to_donors(filepath: str) -> str:
-    return crop_to_region(filepath, 'donors', .585, .27, .86, .58)
+    return crop_to_region(filepath, 'donors', .585, .27, .81, .58)
+
+
+def crop_to_qtys(filepath: str) -> str:
+    return crop_to_region(filepath, 'qtys', .81, .27, .86, .58)
 
 
 def crop_to_relic_name(filepath: str) -> str:

@@ -3,6 +3,8 @@
 # CRKRelicBot-specific ignores
 # Ignore directories generated for storing screenshots/etc.
 images/[0-9]*
+images/latest
+_planning.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
