@@ -1,7 +1,8 @@
 # Duplicated from https://github.com/github/gitignore/blob/main/Python.gitignore
 
 # CRKRelicBot-specific ignores
-images/
+# Ignore directories generated for storing screenshots/etc.
+images/[0-9]*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
