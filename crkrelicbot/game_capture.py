@@ -42,16 +42,28 @@ def capture_window(window_name: str, filepath: str):
         img.save(filepath)
 
 
-def crop_to_donors(filepath: str) -> str:
+def crop_to_region(filepath: str, region_name: str,
+                   leftPercent: float,
+                   topPercent: float,
+                   rightPercent: float,
+                   botPercent: float) -> str:
     with Image.open(filepath) as img:
         width, height = img.size
-        left = int(width * .585)
-        top = int(height * .27)
-        right = int(width * .86)
-        bot = int(height * .58)
+        left = int(width * leftPercent)
+        top = int(height * topPercent)
+        right = int(width * rightPercent)
+        bot = int(height * botPercent)
 
         img = img.crop((left, top, right, bot))
 
-        donors_filepath = os.path.join(os.path.dirname(filepath), 'donors.png')
-        img.save(donors_filepath)
-        return donors_filepath
+        new_filepath = os.path.join(os.path.dirname(filepath), f'{region_name}.png')
+        img.save(new_filepath)
+        return new_filepath
+
+
+def crop_to_donors(filepath: str) -> str:
+    return crop_to_region(filepath, 'donors', .585, .27, .86, .58)
+
+
+def crop_to_relic_name(filepath: str) -> str:
+    return crop_to_region(filepath, 'relic_name', .13, .19, .52, .28)

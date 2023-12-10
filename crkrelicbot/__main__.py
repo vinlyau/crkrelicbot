@@ -1,8 +1,9 @@
 import easyocr
 import os
 import time
+from pprint import pprint
 
-from .game_capture import capture_window, crop_to_donors
+from .game_capture import capture_window, crop_to_donors, crop_to_relic_name
 from .image_utils import process_image_for_ocr
 
 
@@ -17,15 +18,22 @@ def process_one_capture(img_dir: str):
     full_filepath = os.path.join(img_dir, 'full.png')
     capture_window(CRK_WINDOW_NAME, full_filepath)
 
-    # Crop out everything besides the donors list
+    # Crop out relic name and donors list
+    relic_name_filepath = crop_to_relic_name(full_filepath)
     donors_filepath = crop_to_donors(full_filepath)
 
-    # Pre-process image to improve OCR quality
+    # Pre-process images to improve OCR quality
+    process_image_for_ocr(relic_name_filepath, invert=True, threshold=150, dilate=False)
     process_image_for_ocr(donors_filepath)
 
-    # Run OCR on processed image
-    text = reader.readtext(donors_filepath, detail=0)
-    print(text)
+    # Run OCR on processed images
+    # TODO: pprints to be removed
+    relic_name = reader.readtext(relic_name_filepath, detail=0)
+    pprint(relic_name)
+    donors_list = reader.readtext(donors_filepath, detail=0)
+    pprint(donors_list)
+
+    # TODO: Add extracted info to sheet/other data storage
 
 
 def run():
