@@ -1,6 +1,6 @@
 import easyocr
 import os
-from datetime import date
+import time
 
 from .game_capture import capture_window, crop_to_donors
 from .image_utils import process_image_for_ocr
@@ -10,11 +10,6 @@ CRK_WINDOW_NAME = 'CookieRun: Kingdom'
 IMAGES_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'images')
 
 reader = easyocr.Reader(['en'])
-
-
-def setup_images_dir():
-    if not os.path.isdir(IMAGES_DIR):
-        os.makedirs(IMAGES_DIR)
 
 
 def process_one_capture(img_dir: str):
@@ -34,7 +29,7 @@ def process_one_capture(img_dir: str):
 
 
 def run():
-    run_img_dir = os.path.join(IMAGES_DIR, str(date.today()))
+    run_img_dir = os.path.join(IMAGES_DIR, time.strftime("%Y_%m_%d_%H_%M_%S"))
     if not os.path.isdir(run_img_dir):
         os.makedirs(run_img_dir)
 
@@ -42,5 +37,4 @@ def run():
 
 
 if __name__ == '__main__':
-    setup_images_dir()
     run()
