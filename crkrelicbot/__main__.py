@@ -25,6 +25,7 @@ OCR_CONF_IDX = 2
 reader = easyocr.Reader(['en'])
 
 
+# Processes a single screenshot of a Relic Details page
 def process_one_capture(img_dir: str, first_capture: bool=False):
     # Take one screen capture
     full_filepath = os.path.join(img_dir, 'full.png')
@@ -55,15 +56,22 @@ def process_one_capture(img_dir: str, first_capture: bool=False):
         if qtys_list[0][OCR_CONF_IDX] < 0.95:
             print('Most likely detected the "Donor" string in qtys list')
             window.scroll_one_relic_row(full_filepath)
-            process_one_capture(img_dir, first_capture=False) # Explicit false for clarity
+            process_one_capture(img_dir)
 
     return full_filepath
 
 
+# Processes multiple screenshots covering the relic's entire Donors list
 def process_relic(img_dir: str):
-    # Starting process
+    # Process the first screenshot - there are special rules applicable here
     full_filepath = process_one_capture(img_dir, first_capture=True)
-    window.click_to_next_relic(full_filepath)
+
+    # TODO: fix below to intelligently determine when Donors list is complete
+    # Loop until entire Donors list has been processed
+    window.scroll_one_relic_page(full_filepath)
+
+    # At end of processing current relic, click to next relic
+    # window.click_to_next_relic(full_filepath) # TODO: uncomment this line
 
 
 def run():

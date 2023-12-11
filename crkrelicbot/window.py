@@ -89,7 +89,7 @@ def drag(full_img: str, x1: float, y1: float, x2: float, y2: float,
 
 
 def scroll_one_relic_page(full_img: str):
-    drag(full_img, .7117, .5739, .7117, .2684)
+    drag(full_img, .7117, .5739, .7117, .2463, duration=0.75)
 
 
 def scroll_one_relic_row(full_img: str):
