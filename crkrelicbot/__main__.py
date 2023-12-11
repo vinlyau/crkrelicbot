@@ -26,7 +26,7 @@ reader = easyocr.Reader(['en'])
 
 
 # Processes a single screenshot of a Relic Details page
-def process_one_capture(img_dir: str, first_capture: bool=False):
+def process_one_capture(img_dir: str, first_capture: bool=False) -> str:
     # Take one screen capture
     full_filepath = os.path.join(img_dir, 'full.png')
     window.capture(full_filepath)
