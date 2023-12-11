@@ -1,6 +1,38 @@
 import cv2
 import numpy as np
+import os
 from PIL import Image
+
+
+def crop_to_region(filepath: str, region_name: str,
+                   left_percent: float,
+                   top_percent: float,
+                   right_percent: float,
+                   bot_percent: float) -> str:
+    with Image.open(filepath) as img:
+        width, height = img.size
+        left = int(width * left_percent)
+        top = int(height * top_percent)
+        right = int(width * right_percent)
+        bot = int(height * bot_percent)
+
+        img = img.crop((left, top, right, bot))
+
+        new_filepath = os.path.join(os.path.dirname(filepath), f'{region_name}.png')
+        img.save(new_filepath)
+        return new_filepath
+
+
+def crop_to_donors(filepath: str) -> str:
+    return crop_to_region(filepath, 'donors', .585, .27, .81, .58)
+
+
+def crop_to_qtys(filepath: str) -> str:
+    return crop_to_region(filepath, 'qtys', .81, .27, .86, .58)
+
+
+def crop_to_relic_name(filepath: str) -> str:
+    return crop_to_region(filepath, 'relic_name', .13, .19, .52, .28)
 
 
 def binarize_image(img: np.ndarray, threshold: int) -> np.ndarray:
